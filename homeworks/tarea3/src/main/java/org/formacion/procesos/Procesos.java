@@ -75,7 +75,7 @@ public class Procesos {
                 reader.lines().forEach(System.out::println);
             }
         } catch (IOException | NumberFormatException e) {
-            System.err.println("Error al mostrar el número de líneas del archivo: " + e.getMessage());
+            System.err.println("Error al mostrar el numero de lineas del archivo: " + e.getMessage());
             e.printStackTrace();
         }
     }
