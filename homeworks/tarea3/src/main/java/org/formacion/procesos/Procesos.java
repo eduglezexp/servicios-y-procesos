@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class Procesos {
 
+    private final static String PATH_MIS_PROCESOS = "src/main/resources/mis_procesos.txt";
+
     /**
      * Funcion para guardar los procesos encontrados de java 
      * en un archivo txt (ps aux | grep java > mis_procesos.txt)
@@ -24,10 +26,10 @@ public class Procesos {
         ProcessBuilder processBuilder;
         if (isWindows) {
             processBuilder = new ProcessBuilder(
-                    "cmd.exe", "/c", "tasklist | findstr java > mis_procesos.txt");
+                    "cmd.exe", "/c", "tasklist | findstr java > " + PATH_MIS_PROCESOS);
         } else {
             processBuilder = new ProcessBuilder(
-                    "sh", "-c", "ps aux | grep java > mis_procesos.txt");
+                    "sh", "-c", "ps aux | grep java > " + PATH_MIS_PROCESOS);
         }
         try {
             Process process = processBuilder.start();
@@ -81,13 +83,13 @@ public class Procesos {
     }
 
     public void ejecutar() {
-        File archivo = new File("mis_procesos.txt");
+        File archivo = new File(PATH_MIS_PROCESOS);
         try {
             if (!archivo.exists()) {
                 archivo.createNewFile();
             }
             guardarProcesosJava();
-            mostrarNumeroLineasArchivo(archivo.getName());
+            mostrarNumeroLineasArchivo(archivo.getPath());
         } catch (IOException exception) {
             exception.printStackTrace();
         }
