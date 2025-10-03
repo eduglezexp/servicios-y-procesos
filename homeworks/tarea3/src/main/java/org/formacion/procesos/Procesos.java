@@ -82,6 +82,11 @@ public class Procesos {
         }
     }
 
+    /**
+     * Funcion que crea un archivo si no existe y llama a 
+     * las funciones guardarProcesosJava(); y 
+     * mostrarNumeroLineasArchivo(String nombreArchivo)
+     */
     public void ejecutar() {
         File archivo = new File(PATH_MIS_PROCESOS);
         try {
