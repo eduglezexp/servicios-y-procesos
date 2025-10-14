@@ -1,0 +1,6 @@
+total 16
+0 -rw-r--r-- 1 dam dam    0 oct 14 18:37 mis_procesos.txt
+4 -rw-r--r-- 1 dam dam 1942 oct 14 16:02 pom.xml
+4 -rw-r--r-- 1 dam dam 1490 oct  7 15:32 README.md
+4 drwxr-xr-x 4 dam dam 4096 sep 30 16:13 src
+4 drwxrwxr-x 7 dam dam 4096 oct 14 18:37 target
