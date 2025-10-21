@@ -9,13 +9,6 @@ public class ComandoPsService extends ComandoServiceAbstract {
 
     public ComandoPsService() {
         this.setTipo(ProcessType.PS);
-    }
-
-    @Override
-    public boolean validar(String[] arrayComando) {
-        if (!super.validarComando()) {
-            return false;
-        }
-        return true;
+        this.setValidacion("^(\s*|(-?(xa|a|x|aux)))$");
     }
 }

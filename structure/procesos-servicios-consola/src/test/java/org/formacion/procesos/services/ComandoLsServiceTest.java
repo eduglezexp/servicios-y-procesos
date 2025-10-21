@@ -29,14 +29,28 @@ public class ComandoLsServiceTest {
 
     @Test
     void validarVacioTest() {
+        String[] arrayComando = {"ls", " "};
+        boolean valida = comandoLsService.validar(arrayComando);
+        Assertions.assertTrue(valida, "Se ha producido un error en la validacion");
+    }
+
+    @Test
+    void validarSinVacioTest() {
         String[] arrayComando = {"ls", ""};
         boolean valida = comandoLsService.validar(arrayComando);
         Assertions.assertTrue(valida, "Se ha producido un error en la validacion");
     }
 
     @Test
-    void validarFalseTest() {
+    void validarFalseSinGuionTest() {
         String[] arrayComando = {"ls", "lalala"};
+        boolean valida = comandoLsService.validar(arrayComando);
+        Assertions.assertFalse(valida, "Se ha producido un error en la validacion");
+    }
+
+    @Test
+    void validarFalseTest() {
+        String[] arrayComando = {"ls", "-lalala"};
         boolean valida = comandoLsService.validar(arrayComando);
         Assertions.assertFalse(valida, "Se ha producido un error en la validacion");
     }
