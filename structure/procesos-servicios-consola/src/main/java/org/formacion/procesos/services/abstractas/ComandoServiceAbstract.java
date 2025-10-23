@@ -12,8 +12,16 @@ public abstract class ComandoServiceAbstract {
     private ProcessType tipo;
     private String validacion;
 
+    CrudInterface fileRepository;
+
+    public CrudInterface getFileRepository() {
+        return fileRepository;
+    }
+
     @Autowired
-    CrudInterface crudInterface;
+    public void setFileRepository(CrudInterface fileRepository) {
+        this.fileRepository = fileRepository;
+    }
 
     public String getComando() {
         return comando;
@@ -44,14 +52,6 @@ public abstract class ComandoServiceAbstract {
 
     public void setValidacion(String validacion) {
         this.validacion = validacion;
-    }
-
-    public CrudInterface getCrudInterface() {
-        return crudInterface;
-    }
-
-    public void setCrudInterface(CrudInterface crudInterface) {
-        this.crudInterface = crudInterface;
     }
 
     public void procesarLinea(String linea) {
