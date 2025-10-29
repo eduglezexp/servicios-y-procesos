@@ -1,5 +1,12 @@
 package org.formacion.procesos.services.abstractas;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -61,22 +68,44 @@ public abstract class ComandoServiceAbstract {
             return;
         }
         try {
-            Process proceso = new ProcessBuilder("sh", "-c", linea + " > " +fileRepository.getPath())
-            .start();
-            ejecutarProceso(proceso);
+            Process proceso = new ProcessBuilder("sh", "-c", linea).start();
+            Path outputFile = fileRepository.getPath();
+            Path errorFile = Paths.get(outputFile.toString().replace(".txt", "_err.txt"));
+            ejecutarProceso(proceso, outputFile, errorFile);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public boolean ejecutarProceso(Process proceso) {
-        try {
-            proceso.waitFor();
+    public boolean ejecutarProceso(Process proceso, Path outputPath, Path errorPath) {
+        try (OutputStream outStream = Files.newOutputStream(outputPath, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            OutputStream errStream = Files.newOutputStream(errorPath, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+            BufferedReader outReader = new BufferedReader(new InputStreamReader(proceso.getInputStream()));
+            BufferedReader errReader = new BufferedReader(new InputStreamReader(proceso.getErrorStream()))) {
+
+            String outLine;
+            String errLine = null;
+
+            while ((outLine = outReader.readLine()) != null || (errLine = errReader.readLine()) != null) {
+                if (outLine != null) {
+                    System.out.println("[OUT] " + outLine);
+                    outStream.write((outLine + "\n").getBytes());
+                }
+                if (errLine != null) {
+                    System.err.println("[ERR] " + errLine);
+                    errStream.write((errLine + "\n").getBytes());
+                }
+            }
+
+            int exitCode = proceso.waitFor();
+            return exitCode == 0;
+
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
-        return true;
     }
+
 
     public boolean validar(String[] arrayComando) {
         if (!validarComando()) {
