@@ -6,53 +6,53 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class ComandoLsofServiceTest {
-    LsofServiceImpl comandoLsofService;
+    LsofServiceImpl lsofServiceImpl;
 
     @BeforeEach
     void beforeEach() {
-        comandoLsofService = new LsofServiceImpl();
-        comandoLsofService.setComando("lsof");
+        lsofServiceImpl = new LsofServiceImpl();
+        lsofServiceImpl.setComando("lsof");
     }
 
     @Test
     void validarLaTest() {
         String[] arrayComando = {"lsof", "-i"};
-        boolean valida = comandoLsofService.validar(arrayComando);
+        boolean valida = lsofServiceImpl.validar(arrayComando);
         Assertions.assertTrue(valida, "Se ha producido un error en la validacion");
     }
 
     @Test
     void validarMenosVacioTest() {
         String[] arrayComando = {"lsof", "-"};
-        boolean valida = comandoLsofService.validar(arrayComando);
+        boolean valida = lsofServiceImpl.validar(arrayComando);
         Assertions.assertFalse(valida, "Se ha producido un error en la validacion");
     }
 
     @Test
-    void validarVacioTest() {
+    void validarVacioFalseTest() {
         String[] arrayComando = {"lsof", " "};
-        boolean valida = comandoLsofService.validar(arrayComando);
-        Assertions.assertTrue(valida, "Se ha producido un error en la validacion");
+        boolean valida = lsofServiceImpl.validar(arrayComando);
+        Assertions.assertFalse(valida, "Se ha producido un error en la validacion");
     }
 
     @Test
-    void validarSinVacioTest() {
+    void validarSinVacioFalseTest() {
         String[] arrayComando = {"lsof", ""};
-        boolean valida = comandoLsofService.validar(arrayComando);
-        Assertions.assertTrue(valida, "Se ha producido un error en la validacion");
+        boolean valida = lsofServiceImpl.validar(arrayComando);
+        Assertions.assertFalse(valida, "Se ha producido un error en la validacion");
     }
 
     @Test
     void validarFalseSinGuionTest() {
         String[] arrayComando = {"lsof", "lalala"};
-        boolean valida = comandoLsofService.validar(arrayComando);
+        boolean valida = lsofServiceImpl.validar(arrayComando);
         Assertions.assertFalse(valida, "Se ha producido un error en la validacion");
     }
 
     @Test
     void validarFalseTest() {
         String[] arrayComando = {"lsof", "-lalala"};
-        boolean valida = comandoLsofService.validar(arrayComando);
+        boolean valida = lsofServiceImpl.validar(arrayComando);
         Assertions.assertFalse(valida, "Se ha producido un error en la validacion");
     }
 }

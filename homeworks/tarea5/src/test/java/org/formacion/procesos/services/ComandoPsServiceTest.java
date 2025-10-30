@@ -6,60 +6,67 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class ComandoPsServiceTest {
-    PsServiceImpl comandoPsService;
+    PsServiceImpl psServiceImpl;
 
     @BeforeEach
     void beforeEach() {
-        comandoPsService = new PsServiceImpl();
-        comandoPsService.setComando("ps");
+        psServiceImpl = new PsServiceImpl();
+        psServiceImpl.setComando("ps");
     }
 
     @Test
-    void validarXaTest() {
-        String[] arrayComando = {"ps", "xa"};
-        boolean valida = comandoPsService.validar(arrayComando);
+    void validarAuxTest() {
+        String[] arrayComando = {"ps", "aux"};
+        boolean valida = psServiceImpl.validar(arrayComando);
         Assertions.assertTrue(valida, "Se ha producido un error en la validacion");
     }
 
     @Test
-    void validarXaMenosTest() {
-        String[] arrayComando = {"ps", "-xa"};
-        boolean valida = comandoPsService.validar(arrayComando);
+    void validarAuxMenosTest() {
+        String[] arrayComando = {"ps", "-aux"};
+        boolean valida = psServiceImpl.validar(arrayComando);
+        Assertions.assertTrue(valida, "Se ha producido un error en la validacion");
+    }
+
+    @Test
+    void validarAuxHeadMenosTest() {
+        String[] arrayComando = {"ps", "-aux", "|", "head"};
+        boolean valida = psServiceImpl.validar(arrayComando);
         Assertions.assertTrue(valida, "Se ha producido un error en la validacion");
     }
 
     @Test
     void validarMenosVacioTest() {
         String[] arrayComando = {"ps", "-"};
-        boolean valida = comandoPsService.validar(arrayComando);
+        boolean valida = psServiceImpl.validar(arrayComando);
         Assertions.assertFalse(valida, "Se ha producido un error en la validacion");
     }
 
     @Test
     void validarVacioTest() {
         String[] arrayComando = {"ps", " "};
-        boolean valida = comandoPsService.validar(arrayComando);
+        boolean valida = psServiceImpl.validar(arrayComando);
         Assertions.assertTrue(valida, "Se ha producido un error en la validacion");
     }
 
     @Test
     void validarSinVacioTest() {
         String[] arrayComando = {"ps", ""};
-        boolean valida = comandoPsService.validar(arrayComando);
+        boolean valida = psServiceImpl.validar(arrayComando);
         Assertions.assertTrue(valida, "Se ha producido un error en la validacion");
     }
 
     @Test
     void validarFalseSinGuionTest() {
         String[] arrayComando = {"ps", "lalala"};
-        boolean valida = comandoPsService.validar(arrayComando);
+        boolean valida = psServiceImpl.validar(arrayComando);
         Assertions.assertFalse(valida, "Se ha producido un error en la validacion");
     }
 
     @Test
     void validarFalseTest() {
         String[] arrayComando = {"ps", "-lalala"};
-        boolean valida = comandoPsService.validar(arrayComando);
+        boolean valida = psServiceImpl.validar(arrayComando);
         Assertions.assertFalse(valida, "Se ha producido un error en la validacion");
     }
 }

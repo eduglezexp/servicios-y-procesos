@@ -134,9 +134,6 @@ public abstract class ComandoServiceAbstract {
         if (!validarComando()) {
             return false;
         }
-        if (arrayComando.length -1 == 0) {
-            return true;
-        }
         String parametro = arrayComando[1];
         Pattern pattern = Pattern.compile(validacion);
         Matcher matcher = pattern.matcher(parametro);
