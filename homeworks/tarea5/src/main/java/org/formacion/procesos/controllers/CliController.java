@@ -8,18 +8,36 @@ import org.formacion.procesos.services.impl.TopServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * @author eduglezexp
+ * @version 1.0.0
+ */
+
 @Service
 public class CliController {
+    private PsServiceImpl comandoPsController;
+    private LsofServiceImpl comandoLsofController;
+    private TopServiceImpl comandoTopContoller;
 
     @Autowired
-    PsServiceImpl comandoPsController;
+    public void setComandoPsController(PsServiceImpl comandoPsController) {
+        this.comandoPsController = comandoPsController;
+    }
 
     @Autowired
-    LsofServiceImpl comandoLsofController;
+    public void setComandoLsofController(LsofServiceImpl comandoLsofController) {
+        this.comandoLsofController = comandoLsofController;
+    }
 
     @Autowired
-    TopServiceImpl comandoTopContoller;
+    public void setComandoTopContoller(TopServiceImpl comandoTopContoller) {
+        this.comandoTopContoller = comandoTopContoller;
+    }
 
+    /**
+     * Menu para mostrar en la consola los comandos que puede lanzar el usuario
+     * y leer ese comado introducido
+     */
     public void menuConsola() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("=== Lanzador de Procesos (CLI) Linux ===\n" +

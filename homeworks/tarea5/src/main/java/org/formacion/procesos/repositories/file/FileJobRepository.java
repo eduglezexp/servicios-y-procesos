@@ -11,6 +11,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
+/**
+ * @author eduglezexp
+ * @version 1.0.0
+ */
+
 @Repository
 public class FileJobRepository implements IJobRepository{
 
@@ -18,10 +23,21 @@ public class FileJobRepository implements IJobRepository{
     String fileName;
     static Path path;
 
+    /**
+     * Getters and Setters
+     */
+    @Override
+    public Path getPath() {
+        return path;
+    }
+
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
 
+    /**
+     * Constructor por defecto
+     */
     public FileJobRepository() {
         if (fileName == null) {
             fileName = "mis_procesos.txt";
@@ -30,6 +46,11 @@ public class FileJobRepository implements IJobRepository{
         path = Paths.get(resource.getPath());
     }
 
+    /**
+     * Metodo para agregar contenido al fichero
+     * @param text a agregar
+     * @return true/false
+     */
     @Override
     public boolean add(String text) {
         try {
@@ -39,10 +60,5 @@ public class FileJobRepository implements IJobRepository{
             logger.error("Se ha producido un error almacenando en el fichero ", e);
         }
         return false;
-    }
-
-    @Override
-    public Path getPath() {
-        return path;
     }
 }

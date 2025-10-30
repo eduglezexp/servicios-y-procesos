@@ -14,13 +14,20 @@ import org.formacion.procesos.domain.Job;
 import org.formacion.procesos.repositories.interfaces.IJobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
+/**
+ * @author eduglezexp
+ * @version 1.0.0
+ */
+
 public abstract class ComandoServiceAbstract {
     private String comando;
     private Job tipo;
     private String validacion;
+    private IJobRepository fileRepository;
 
-    IJobRepository fileRepository;
-
+    /**
+     * Getters and Setters
+     */
     public IJobRepository getFileRepository() {
         return fileRepository;
     }
@@ -61,6 +68,10 @@ public abstract class ComandoServiceAbstract {
         this.validacion = validacion;
     }
 
+    /**
+     * Metodo que manda a procesar el comando obtenido
+     * @param linea a procesar
+     */
     public void procesarLinea(String linea) {
         String[] arrayComando = linea.split("\s+");
         this.setComando(arrayComando[0]);
@@ -77,6 +88,14 @@ public abstract class ComandoServiceAbstract {
         }
     }
 
+    /**
+     * Metodo que imprime por consola el [OUT] o el [ERR] obtenido 
+     * y lo escribe en el fichero correspondiente, y manda a ejecutar el proceso
+     * @param proceso a ejecutar
+     * @param outputPath ruta del fichero out
+     * @param errorPath ruta del fichero de err
+     * @return true/false
+     */
     public boolean ejecutarProceso(Process proceso, Path outputPath, Path errorPath) {
         try (OutputStream outStream = Files.newOutputStream(outputPath, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
             OutputStream errStream = Files.newOutputStream(errorPath, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
@@ -106,7 +125,11 @@ public abstract class ComandoServiceAbstract {
         }
     }
 
-
+    /**
+     * Metodo para validar si el parametro añadido al comando es valido o no
+     * @param arrayComando a comprobar
+     * @return true/false
+     */
     public boolean validar(String[] arrayComando) {
         if (!validarComando()) {
             return false;
@@ -124,6 +147,10 @@ public abstract class ComandoServiceAbstract {
         return true;
     }
 
+    /**
+     * Metodo para validar si el comando es valido o no
+     * @return true/false
+     */
     public boolean validarComando() {
         if (!this.getComando().toUpperCase().equals(getTipoToString())) {
             System.out.println("El comando es invalido");
