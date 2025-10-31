@@ -17,6 +17,6 @@ public class PsServiceImpl extends ComandoServiceAbstract {
      */
     public PsServiceImpl() {
         this.setTipo(Job.PS);
-        this.setValidacion("^(\\s*|(-?(xa|a|x|aux)))$");
+        this.setValidacion("^((-?(aux\\s+\\|\\s+head)\s*)|\\s*)$");
     }
 }

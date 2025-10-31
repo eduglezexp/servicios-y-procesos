@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -72,11 +73,11 @@ public abstract class ComandoServiceAbstract {
      * Metodo que manda a procesar el comando obtenido
      * @param linea a procesar
      */
-    public void procesarLinea(String linea) {
+    public boolean procesarLinea(String linea) {
         String[] arrayComando = linea.split("\s+");
         this.setComando(arrayComando[0]);
         if (!validar(arrayComando)) {
-            return;
+            return false;
         }
         try {
             Process proceso = new ProcessBuilder("sh", "-c", linea).start();
@@ -85,7 +86,9 @@ public abstract class ComandoServiceAbstract {
             ejecutarProceso(proceso, outputFile, errorFile);
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     /**
@@ -134,7 +137,10 @@ public abstract class ComandoServiceAbstract {
         if (!validarComando()) {
             return false;
         }
-        String parametro = arrayComando[1];
+        if (arrayComando.length - 1 == 0) {
+            return true;
+        }
+        String parametro = String.join(" ", Arrays.copyOfRange(arrayComando,1,arrayComando.length));
         Pattern pattern = Pattern.compile(validacion);
         Matcher matcher = pattern.matcher(parametro);
         if (!matcher.find()) {

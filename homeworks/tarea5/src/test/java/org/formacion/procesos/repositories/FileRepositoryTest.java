@@ -17,7 +17,7 @@ class FileRepositoryTest {
     }
 
     @Test
-    void addContenido() {
+    void addContenidoTest() {
         boolean resultado = fileRepository.add("texto");
         Assertions.assertTrue(resultado, NO_SE_HA_OBTENIDO_EL_RESULTADO_ESPERADO);
     }

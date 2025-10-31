@@ -17,6 +17,6 @@ public class LsofServiceImpl extends ComandoServiceAbstract{
      */
     public LsofServiceImpl() {
         this.setTipo(Job.LSOF);
-        this.setValidacion("^(\\s*|(-(i)))$");
+        this.setValidacion("^(\\s*|-(i))$");
     }
 }
