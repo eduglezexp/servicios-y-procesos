@@ -113,7 +113,7 @@ public class BatallaPokemon extends SimulacionBase{
      * Metodo que representa el hilo de Pikachu atacando a Charmander
      * @return Runnable que representa el hilo de Pikachu atacando a Charmander
      */
-    public Runnable hiloPikachu() {
+    private Runnable hiloPikachu() {
         return hilo(PIKACHU, CHARMANDER);
     }
 
@@ -121,7 +121,7 @@ public class BatallaPokemon extends SimulacionBase{
      * Metodo que representa el hilo de Charmander atacando a Pikachu
      * @return Runnable que representa el hilo de Charmander atacando a Pikachu
      */
-    public Runnable hiloCharmander() {
+    private Runnable hiloCharmander() {
         return hilo(CHARMANDER, PIKACHU);
     }
 

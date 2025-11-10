@@ -43,7 +43,7 @@ public class FabricaDroids extends SimulacionBase {
      * Metodo que representa el ensamblador de droids
      * @return Runnable que representa el ensamblador de droids
      */
-    public Runnable ensamblador() {
+    private Runnable ensamblador() {
         return () -> {
             for (int i = 1; i <= n; i++) {
                 try {
@@ -63,7 +63,7 @@ public class FabricaDroids extends SimulacionBase {
      * Metodo que representa el activador de droids
      * @return Runnable que representa el activador de droids
      */
-    public Runnable activador() {
+    private Runnable activador() {
         return () -> {
             int cuenta = 0;
             while (cuenta < n) {

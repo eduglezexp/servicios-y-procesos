@@ -39,7 +39,7 @@ public class Quidditch extends SimulacionBase {
      * @param nombreEquipo nombre del equipo
      * @return Runnable que representa el cazador
      */
-    public Runnable cazador(String nombreEquipo) {
+    private Runnable cazador(String nombreEquipo) {
         return () -> {
             while (!snitchAtrapada.get()) {
                 try {
@@ -76,7 +76,7 @@ public class Quidditch extends SimulacionBase {
      * 
      * @return Runnable que representa el buscador
      */
-    public Runnable buscador() {
+    private Runnable buscador() {
         return () -> {
             while (!snitchAtrapada.get()) {
                 try {

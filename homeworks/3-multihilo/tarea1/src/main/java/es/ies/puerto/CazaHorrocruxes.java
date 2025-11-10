@@ -44,7 +44,7 @@ public class CazaHorrocruxes extends SimulacionBase {
      * @param ubicacion ubicacion donde busca el horrocrux
      * @return Runnable que representa el buscador
      */
-    public Runnable buscador(String nombre, String ubicacion) {
+    private Runnable buscador(String nombre, String ubicacion) {
         return ()-> {
             try {
                 int tiempo = ThreadLocalRandom.current().nextInt(500, 2001);

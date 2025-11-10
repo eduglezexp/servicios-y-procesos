@@ -37,7 +37,7 @@ public class ExploradoresJedi extends SimulacionBase {
      * @param planeta planeta donde busca la pista
      * @return Runnable que ejecuta la busqueda de la pista
      */
-    public Runnable jedi(String nombre, String planeta) {
+    private Runnable jedi(String nombre, String planeta) {
         return () -> {
             try {
                 int tiempo = ThreadLocalRandom.current().nextInt(400, 1501);

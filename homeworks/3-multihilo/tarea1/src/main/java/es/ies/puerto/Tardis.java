@@ -1,0 +1,62 @@
+package es.ies.puerto;
+
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
+
+import es.ies.puerto.abstractas.SimulacionBase;
+
+/**
+ * @author eduglezexp
+ * @version 1.0.0
+ */
+
+public class Tardis extends SimulacionBase {
+
+    private final AtomicBoolean destinoAlcanzado;
+    private final AtomicReference<String> eraGanadora;
+
+    /**
+     * Constructor por defecto
+     */
+    public Tardis() {
+        this.destinoAlcanzado = new AtomicBoolean(false);
+        this.eraGanadora = new AtomicReference<>(null);
+    }
+
+    /**
+     * Metodo que representa un viajero en el tiempo
+     * @param era nombre de la era a la que viaja
+     * @return Runnable que representa el viajero
+     */
+    private Runnable viajero(String era) {
+        return () -> {
+            try {
+                int tiempo = ThreadLocalRandom.current().nextInt(500, 2001);
+                Thread.sleep(tiempo);
+                if (!destinoAlcanzado.get()) {
+                    destinoAlcanzado.set(true);
+                    eraGanadora.set(era);
+                    System.out.println("La TARDIS llegó primero a " + era);
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        };
+    }
+
+    /**
+     * Metodo que crea los hilos necesarios para la simulacion
+     * @return array de hilos
+     */
+    @Override
+    public Thread[] crearHilos() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'crearHilos'");
+    }
+
+    public static void main(String[] args) {
+        Tardis tardis = new Tardis();
+        tardis.ejecutarSimulacion();
+    }
+}
