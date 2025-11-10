@@ -105,6 +105,9 @@ public class Quidditch extends SimulacionBase {
         return new Thread[]{cazadorA, cazadorB, buscador};
     }
 
+    /**
+     * Metodo que ejecuta la simulacion y muestra el marcador final
+     */
     @Override
     public void ejecutarSimulacion() {
         super.ejecutarSimulacion();

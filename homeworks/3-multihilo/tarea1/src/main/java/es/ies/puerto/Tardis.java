@@ -11,6 +11,9 @@ import es.ies.puerto.abstractas.SimulacionBase;
  * @version 1.0.0
  */
 
+ /**
+  * Clase que simula una carrera de viajeros en el tiempo con la TARDIS concurrentemente
+  */
 public class Tardis extends SimulacionBase {
 
     private final AtomicBoolean destinoAlcanzado;

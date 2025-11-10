@@ -14,6 +14,9 @@ import es.ies.puerto.abstractas.SimulacionBase;
  * @version 1.0.0
  */
 
+/**
+ * Clase que simula una ciudad en peligro siendo salvada por Superman y Batman concurrentemente
+ */
 public class CiudadEnPeligro extends SimulacionBase {
 
     private static final String BATAM = "Batam";
@@ -45,10 +48,11 @@ public class CiudadEnPeligro extends SimulacionBase {
         return ganador.get();
     }
 
-    public void averiguarSuperHeroe() {
-        
-    }
-
+    /**
+     * Metodo que representa el hilo de un superheroe
+     * @param superHerore nombre del superheroe
+     * @return Runnable que representa al superheroe
+     */
     private Runnable hilo(String superHerore) {
         return () -> {
             try {
@@ -64,6 +68,7 @@ public class CiudadEnPeligro extends SimulacionBase {
                 for (String zona : zonas) {
                     if (amenazaNeutralizada.get()) break;
                     Thread.sleep(tiempo);
+                    if (amenazaNeutralizada.get()) break;
                     System.out.println(superHerore + " salvó " + zona);
                 }
                 if (!amenazaNeutralizada.get()) {
@@ -77,10 +82,18 @@ public class CiudadEnPeligro extends SimulacionBase {
         };
     }
 
+    /**
+     * Metodo que representa el hilo de Superman
+     * @return Runnable que representa a Superman
+     */
     private Runnable superman() {
         return hilo(SUPERMAN);
     }
 
+    /**
+     * Metodo que representa el hilo de Batman
+     * @return Runnable que representa a Batman
+     */
     private Runnable batman() {
         return hilo(BATAM);
     }
@@ -91,11 +104,13 @@ public class CiudadEnPeligro extends SimulacionBase {
      */
     @Override
     public Thread[] crearHilos() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'crearHilos'");
+        Thread superman = new Thread(superman());
+        Thread batman = new Thread(batman());
+        return new Thread[] { superman, batman };
     }
 
     public static void main(String[] args) {
-        
+        CiudadEnPeligro ciudad = new CiudadEnPeligro();
+        ciudad.ejecutarSimulacion();
     }
 }
