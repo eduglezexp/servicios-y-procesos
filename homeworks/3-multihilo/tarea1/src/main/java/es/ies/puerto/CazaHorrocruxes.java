@@ -4,6 +4,8 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
+import es.ies.puerto.abstractas.SimulacionBase;
+
 /**
  * @author eduglezexp
  * @version 1.0.0
@@ -12,16 +14,28 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * Clase que simula la caza de horrocruxes por varios buscadores concurrentes 
  */
-public class CazaHorrocruxes {
-    public final AtomicBoolean encontrado;
-    public final AtomicReference<String> ganador;
+public class CazaHorrocruxes extends SimulacionBase {
+    
+    private final AtomicBoolean encontrado;
+    private final AtomicReference<String> ganador;
 
     /**
      * Constructor por defecto
      */
     public CazaHorrocruxes() {
-        encontrado = new AtomicBoolean(false);
-        ganador = new AtomicReference<>(null);
+        this.encontrado = new AtomicBoolean(false);
+        this.ganador = new AtomicReference<>(null);
+    }
+
+    /**
+     * Getters
+     */
+    public boolean isEncontrado() {
+        return encontrado.get();
+    }
+
+    public String getGanador() {
+        return ganador.get();
     }
 
     /**
@@ -46,16 +60,20 @@ public class CazaHorrocruxes {
         };
     }
 
-    public static void main(String[] args) throws InterruptedException {
+    /**
+     * Metodo que crea los hilos necesarios para la simulacion
+     * @return array de hilos
+     */
+    @Override
+    public Thread[] crearHilos() {
+        Thread harry = new Thread(buscador("Harry", "Bosque Prohibido"));
+        Thread hermione = new Thread(buscador("Hermione", "Biblioteca Antigua"));
+        Thread ron = new Thread(buscador("Ron", "Mazmorras del Castillo"));
+        return new Thread[]{ harry, hermione, ron };
+    }
+
+    public static void main(String[] args) {
         CazaHorrocruxes caza = new CazaHorrocruxes();
-        Thread harry = new Thread(caza.buscador("Harry", "Bosque Prohibido"));
-        Thread hermione = new Thread(caza.buscador("Hermione", "Biblioteca Antigua"));
-        Thread ron = new Thread(caza.buscador("Ron", "Mazmorras del Castillo"));
-        harry.start();
-        hermione.start();
-        ron.start();
-        harry.join();
-        hermione.join();
-        ron.join();
+        caza.ejecutarSimulacion();
     }
 }

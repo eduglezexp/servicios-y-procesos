@@ -4,6 +4,8 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.*;
 
+import es.ies.puerto.abstractas.SimulacionBase;
+
 /**
  * @author eduglezexp
  * @version 1.0.0
@@ -12,11 +14,11 @@ import java.util.concurrent.locks.*;
 /**
  * Clase que simula una batalla entre dos pokemons: Pikachu y Charmander
  */
-public class BatallaPokemon {
+public class BatallaPokemon extends SimulacionBase{
 
-    public final AtomicBoolean juegoTerminado;
-    public int hpPikachu = 100;
-    public int hpCharmander = 100;
+    private final AtomicBoolean juegoTerminado;
+    private int hpPikachu = 100;
+    private int hpCharmander = 100;
     private String turno = "Pikachu";
 
     private final ReentrantLock m;
@@ -32,6 +34,21 @@ public class BatallaPokemon {
         this.juegoTerminado = new AtomicBoolean(false);
         this.m = new ReentrantLock();
         this.turnoCambio = m.newCondition();
+    }
+
+    /**
+     * Getters
+     */
+    public boolean isJuegoTerminado() {
+        return juegoTerminado.get();
+    }
+
+    public int getHpPikachu() {
+        return hpPikachu;
+    }
+
+    public int getHpCharmander() {
+        return hpCharmander;
     }
 
     /**
@@ -73,8 +90,8 @@ public class BatallaPokemon {
     private Runnable hilo(String atacante, String objetivo) {
         return () -> {
             while (!juegoTerminado.get()) {
+                m.lock();
                 try {
-                    m.lock();
                     while (!turno.equals(atacante) && !juegoTerminado.get()) {
                         turnoCambio.await();
                     }
@@ -108,16 +125,19 @@ public class BatallaPokemon {
         return hilo(CHARMANDER, PIKACHU);
     }
 
-    public static void main(String[] args) throws InterruptedException {
+    /**
+     * Metodo que crea los hilos necesarios para la simulacion
+     * @return array de hilos
+     */
+    @Override
+    public Thread[] crearHilos() {
+        Thread pikachu = new Thread(hiloPikachu());
+        Thread charmander = new Thread(hiloCharmander());
+        return new Thread[] { pikachu, charmander };
+    }
+
+    public static void main(String[] args) {
         BatallaPokemon batalla = new BatallaPokemon();
-
-        Thread pikachu = new Thread(batalla.hiloPikachu());
-        Thread charmander = new Thread(batalla.hiloCharmander());
-
-        pikachu.start();
-        charmander.start();
-
-        pikachu.join();
-        charmander.join();
+        batalla.ejecutarSimulacion();
     }
 }

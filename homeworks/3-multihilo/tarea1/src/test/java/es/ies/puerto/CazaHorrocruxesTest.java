@@ -3,40 +3,35 @@ package es.ies.puerto;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import es.ies.puerto.utils.TestUtils;
 
 public class CazaHorrocruxesTest {
 
-    private static final String RON = "Ron";
-    private static final String HERMIONE = "Hermione";
-    private static final String HARRY = "Harry";
-    private static final String BOSQUE_PROHIBIDO = "Bosque Prohibido";
-    private static final String BIBLIOTECA_ANTIGUA = "Biblioteca Antigua";
-    private static final String MAZMORRAS_DEL_CASTILLO = "Mazmorras del Castillo";
+    static final String RON = "Ron";
+    static final String HERMIONE = "Hermione";
+    static final String HARRY = "Harry";
+
+    CazaHorrocruxes caza;
+
+    @BeforeEach
+    void beforeEach() {
+        caza = new CazaHorrocruxes();
+    }
 
     @Test
-    void CazaHorrocruxesUnGanadorYUnSoloHallazgo() throws InterruptedException {
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outContent));
-        CazaHorrocruxes caza = new CazaHorrocruxes();
-        Thread harry = new Thread(caza.buscador(HARRY, BOSQUE_PROHIBIDO));
-        Thread hermione = new Thread(caza.buscador(HERMIONE, BIBLIOTECA_ANTIGUA));
-        Thread ron = new Thread(caza.buscador(RON, MAZMORRAS_DEL_CASTILLO));
-        harry.start();
-        hermione.start();
-        ron.start();
-        harry.join();
-        hermione.join();
-        ron.join();
-        String output = outContent.toString();
-        assertTrue(caza.encontrado.get() == true, "El horrocrux debe haber sido encontrado.");
+    void CazaHorrocruxesUnGanadorYUnSoloHallazgo() {
+        String output = TestUtils.ejecutarConSalida(() -> {
+            caza.ejecutarSimulacion();
+        });
+        assertTrue(caza.isEncontrado() == true, "El horrocrux debe haber sido encontrado.");
         assertTrue(
-            HARRY.equals(caza.ganador.get()) ||
-            HERMIONE.equals(caza.ganador.get()) ||
-            RON.equals(caza.ganador.get()),
+            HARRY.equals(caza.getGanador()) ||
+            HERMIONE.equals(caza.getGanador()) ||
+            RON.equals(caza.getGanador()),
             "El ganador debe ser Harry, Hermione o Ron"
         );
         assertEquals(1, output.split("encontró un Horrocrux").length - 1, 

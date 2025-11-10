@@ -5,6 +5,8 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import es.ies.puerto.abstractas.SimulacionBase;
+
 /**
  * @author eduglezexp
  * @version 1.0.0
@@ -13,10 +15,10 @@ import java.util.concurrent.atomic.AtomicInteger;
  /**
   * Clase que simula una fabrica de droids con ensambladores y activadores concurrentes
   */
-public class FabricaDroids {
-    BlockingQueue<String> ensamblados;
-    int n = 10;
-    AtomicInteger activados;
+public class FabricaDroids extends SimulacionBase {
+    private final BlockingQueue<String> ensamblados;
+    private int n = 10;
+    private final AtomicInteger activados;
 
     /**
      * Constructor por defecto
@@ -24,6 +26,17 @@ public class FabricaDroids {
     public FabricaDroids() {
         ensamblados = new ArrayBlockingQueue<>(n);
         activados = new AtomicInteger(0);
+    }
+
+    /**
+     * Getters
+     */
+    public int getN() {
+        return n;
+    }
+
+    public int getActivados() {
+        return activados.get();
     }
 
     /**
@@ -68,13 +81,19 @@ public class FabricaDroids {
         };
     }
 
-    public static void main(String[] args) throws InterruptedException {
+    /**
+     * Metodo que crea los hilos necesarios para la simulacion
+     * @return array de hilos
+     */
+    @Override
+    public Thread[] crearHilos() {
+        Thread ensambladorThread = new Thread(ensamblador());
+        Thread activadorThread = new Thread(activador());
+        return new Thread[] { ensambladorThread, activadorThread };
+    }
+
+    public static void main(String[] args) {
         FabricaDroids fabrica = new FabricaDroids();
-        Thread ensambladorThread = new Thread(fabrica.ensamblador());
-        Thread activadorThread = new Thread(fabrica.activador());
-        ensambladorThread.start();
-        activadorThread.start();
-        ensambladorThread.join();
-        activadorThread.join();
+        fabrica.ejecutarSimulacion();
     }
 }
