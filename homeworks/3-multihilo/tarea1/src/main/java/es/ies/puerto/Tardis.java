@@ -25,6 +25,17 @@ public class Tardis extends SimulacionBase {
     }
 
     /**
+     * Getters
+     */
+    public boolean isDestinoAlcanzado() {
+        return destinoAlcanzado.get();
+    }
+
+    public String getEraGanadora() {
+        return eraGanadora.get();
+    }
+
+    /**
      * Metodo que representa un viajero en el tiempo
      * @param era nombre de la era a la que viaja
      * @return Runnable que representa el viajero
@@ -51,8 +62,11 @@ public class Tardis extends SimulacionBase {
      */
     @Override
     public Thread[] crearHilos() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'crearHilos'");
+        Thread roma = new Thread(viajero("Roma Antigua"));
+        Thread futuro = new Thread(viajero("Futuro Lejano"));
+        Thread era = new Thread(viajero("Era Victoriana"));
+        Thread anio = new Thread(viajero("Año 3000"));
+        return new Thread[]{ roma, futuro, era, anio };
     }
 
     public static void main(String[] args) {

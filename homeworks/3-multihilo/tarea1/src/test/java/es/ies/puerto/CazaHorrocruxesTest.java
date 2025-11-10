@@ -27,7 +27,8 @@ public class CazaHorrocruxesTest {
         String output = TestUtils.ejecutarConSalida(() -> {
             caza.ejecutarSimulacion();
         });
-        assertTrue(caza.isEncontrado() == true, "El horrocrux debe haber sido encontrado.");
+        assertTrue(caza.isEncontrado() == true, 
+        "El horrocrux debe haber sido encontrado.");
         assertTrue(
             HARRY.equals(caza.getGanador()) ||
             HERMIONE.equals(caza.getGanador()) ||
