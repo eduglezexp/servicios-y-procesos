@@ -1,6 +1,5 @@
 package com.docencia.semaforo.ejercicio1;
 
-import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -11,22 +10,20 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class ColorSemaforo implements Runnable {
 
     private Colores color = Colores.ROJO;
-    private final AtomicBoolean stopSemaforo;
-    private final Semaphore semaphore;
+    private final AtomicBoolean stop;
 
     /**
      * Constructor por defecto
      */
     public ColorSemaforo() {
-        stopSemaforo = new AtomicBoolean(false);
-        semaphore = new Semaphore(1, true);
+        stop = new AtomicBoolean(false);
     }
     
     /**
      * Metodo para detener el semaforo
      */
     public void detener() {
-        stopSemaforo.set(true);
+        stop.set(true);
     }
 
     /**
@@ -47,16 +44,13 @@ public class ColorSemaforo implements Runnable {
 
     @Override
     public void run() {
-        while (!stopSemaforo.get()) {
+        while (!stop.get()) {
             try {
-                semaphore.acquire();
                 System.out.println(color);
                 Thread.sleep(tiempoDelColor());
                 siguienteColor();
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
-            } finally {
-                semaphore.release();
             }
         }
     }
