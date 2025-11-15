@@ -42,7 +42,7 @@ public class SaiyanRaceSemaphore implements Runnable {
                     }
                 }
                 otherTurn.release();
-
+                
                 try {
                     Thread.sleep(ThreadLocalRandom.current().nextInt(200, 401));
                 } catch (InterruptedException ie) {
