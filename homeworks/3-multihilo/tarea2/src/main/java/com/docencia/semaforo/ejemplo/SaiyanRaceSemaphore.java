@@ -1,4 +1,4 @@
-package com.docencia.semaforo;
+package com.docencia.semaforo.ejemplo;
 
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.ThreadLocalRandom;
