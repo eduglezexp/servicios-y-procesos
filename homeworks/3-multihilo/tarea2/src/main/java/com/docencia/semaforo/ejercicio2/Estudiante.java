@@ -47,6 +47,11 @@ public class Estudiante implements Runnable {
         for (int i = 1; i <= 6; i++) {
             Thread estudiante = new Thread(new Estudiante("Estudiante " + i));
             estudiante.start();
+            try {
+                estudiante.join();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
         }
     }
 }
