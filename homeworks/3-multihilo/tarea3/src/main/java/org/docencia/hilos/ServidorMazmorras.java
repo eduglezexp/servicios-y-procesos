@@ -4,15 +4,42 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * @author eduglezexp
+ * @version 1.0.0
+ */
+
+/**
+ * Clase que simula un servidor de mazmorras
+ */
 public class ServidorMazmorras {
 
+    /**
+     * Clase que se encarga de las peticiones a la mazmorras
+     */
     static class PeticionMazmorra implements Runnable {
         private final String nombreJugador;
         private final String mazmorra;
 
+        /**
+         * Constructor con todas las propiedades
+         * @param nombreJugador nombre del jugador
+         * @param mazmorra nombre de la mazmorra
+         */
         public PeticionMazmorra(String nombreJugador, String mazmorra) {
             this.nombreJugador = nombreJugador;
             this.mazmorra = mazmorra;
+        }
+
+        /**
+         * Getters
+         */
+        public String getNombreJugador() {
+            return nombreJugador;
+        }
+
+        public String getMazmorra() {
+            return mazmorra;
         }
 
         @Override
@@ -32,12 +59,15 @@ public class ServidorMazmorras {
         }
     }
 
+    /**
+     * Metodo que ejecuta el servidor
+     * @param tamanoPool tamanio del ThreadPool 
+     */
     public static void ejecutarServidor(int tamanoPool) {
         System.out.println("\n=== SERVIDOR DE MAZMORRAS (Pool de " + tamanoPool + " hilos) ===\n");
         
         ExecutorService gmBots = Executors.newFixedThreadPool(tamanoPool);
 
-        // Simulamos 10 jugadores que quieren entrar a mazmorras
         String[] jugadores = {
                 "Link", "Zelda", "Geralt", "Yennefer", "Gandalf",
                 "Frodo", "Aragorn", "Leia", "Luke", "DarthVader"
@@ -75,30 +105,25 @@ public class ServidorMazmorras {
         System.out.println("║  Ejercicio 1: Fixed Thread Pool            ║");
         System.out.println("╚════════════════════════════════════════════╝\n");
 
-        // Prueba con pool de 3 hilos (configuración original)
         ejecutarServidor(3);
 
-        // Espera antes de la siguiente prueba
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
 
-        // Prueba con pool de 1 hilo
         System.out.println("\n" + "=".repeat(50));
         System.out.println("COMPARACIÓN: Pool de 1 hilo (procesamiento secuencial)");
         System.out.println("=".repeat(50));
         ejecutarServidor(1);
 
-        // Espera antes de la siguiente prueba
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
 
-        // Prueba con pool de 10 hilos
         System.out.println("\n" + "=".repeat(50));
         System.out.println("COMPARACIÓN: Pool de 10 hilos (alta concurrencia)");
         System.out.println("=".repeat(50));
