@@ -1,0 +1,107 @@
+package org.docencia.hilos;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
+public class ServidorMazmorras {
+
+    static class PeticionMazmorra implements Runnable {
+        private final String nombreJugador;
+        private final String mazmorra;
+
+        public PeticionMazmorra(String nombreJugador, String mazmorra) {
+            this.nombreJugador = nombreJugador;
+            this.mazmorra = mazmorra;
+        }
+
+        @Override
+        public void run() {
+            String hilo = Thread.currentThread().getName();
+            System.out.println("[" + hilo + "] Preparando mazmorra '" + mazmorra +
+                    "' para el jugador " + nombreJugador);
+            try {
+                Thread.sleep(1000 + (int)(Math.random() * 1000));
+            } catch (InterruptedException e) {
+                System.out.println("[" + hilo + "] Petición de " + nombreJugador + " interrumpida");
+                Thread.currentThread().interrupt();
+                return;
+            }
+            System.out.println("[" + hilo + "] Mazmorra '" + mazmorra +
+                    "' lista para " + nombreJugador + " 🎮");
+        }
+    }
+
+    public static void ejecutarServidor(int tamanoPool) {
+        System.out.println("\n=== SERVIDOR DE MAZMORRAS (Pool de " + tamanoPool + " hilos) ===\n");
+        
+        ExecutorService gmBots = Executors.newFixedThreadPool(tamanoPool);
+
+        // Simulamos 10 jugadores que quieren entrar a mazmorras
+        String[] jugadores = {
+                "Link", "Zelda", "Geralt", "Yennefer", "Gandalf",
+                "Frodo", "Aragorn", "Leia", "Luke", "DarthVader"
+        };
+        String[] mazmorras = {
+                "Catacumbas de Hyrule", "Torre Oscura", "Moria",
+                "Estrella de la Muerte", "Nido de Dragón"
+        };
+
+        for (int i = 0; i < jugadores.length; i++) {
+            String jugador = jugadores[i];
+            String dungeon = mazmorras[i % mazmorras.length];
+            gmBots.execute(new PeticionMazmorra(jugador, dungeon));
+        }
+
+        gmBots.shutdown();
+        System.out.println("Servidor: todas las peticiones han sido enviadas a los GM bots.\n");
+        
+        try {
+            if (!gmBots.awaitTermination(30, TimeUnit.SECONDS)) {
+                System.out.println("Tiempo agotado, forzando cierre...");
+                gmBots.shutdownNow();
+            }
+        } catch (InterruptedException e) {
+            gmBots.shutdownNow();
+            Thread.currentThread().interrupt();
+        }
+        
+        System.out.println("=== Servidor finalizado ===\n");
+    }
+
+    public static void main(String[] args) {
+        System.out.println("╔════════════════════════════════════════════╗");
+        System.out.println("║  SERVIDOR DE MAZMORRAS ONLINE              ║");
+        System.out.println("║  Ejercicio 1: Fixed Thread Pool            ║");
+        System.out.println("╚════════════════════════════════════════════╝\n");
+
+        // Prueba con pool de 3 hilos (configuración original)
+        ejecutarServidor(3);
+
+        // Espera antes de la siguiente prueba
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
+        // Prueba con pool de 1 hilo
+        System.out.println("\n" + "=".repeat(50));
+        System.out.println("COMPARACIÓN: Pool de 1 hilo (procesamiento secuencial)");
+        System.out.println("=".repeat(50));
+        ejecutarServidor(1);
+
+        // Espera antes de la siguiente prueba
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
+        // Prueba con pool de 10 hilos
+        System.out.println("\n" + "=".repeat(50));
+        System.out.println("COMPARACIÓN: Pool de 10 hilos (alta concurrencia)");
+        System.out.println("=".repeat(50));
+        ejecutarServidor(10);
+    }
+}
