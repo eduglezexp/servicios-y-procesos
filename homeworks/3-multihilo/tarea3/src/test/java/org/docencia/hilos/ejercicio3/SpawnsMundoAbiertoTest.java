@@ -67,7 +67,7 @@ class SpawnsMundoAbiertoTest {
     }
 
     @Test
-    @DisplayName("Test: SpawnTarea con tiempo de ejecución")
+    @DisplayName("Test: SpawnTarea con tiempo de ejecucion")
     void testSpawnTareaConDelay() {
         long tiempoEjecucion = 500;
         SpawnsMundoAbierto.SpawnTarea tarea = new SpawnsMundoAbierto.SpawnTarea(tiempoEjecucion, false);
