@@ -1,0 +1,7 @@
+/home/dam/dam/repositories/servicios-y-procesos/structure/spring-tareas-rest-soap/src/main/java/com/docencia/tareas/TareasApplication.java
+/home/dam/dam/repositories/servicios-y-procesos/structure/spring-tareas-rest-soap/src/main/java/com/docencia/tareas/model/Tarea.java
+/home/dam/dam/repositories/servicios-y-procesos/structure/spring-tareas-rest-soap/src/main/java/com/docencia/tareas/repository/TareaRepository.java
+/home/dam/dam/repositories/servicios-y-procesos/structure/spring-tareas-rest-soap/src/main/java/com/docencia/tareas/repository/interfaces/ITareaRepository.java
+/home/dam/dam/repositories/servicios-y-procesos/structure/spring-tareas-rest-soap/src/main/java/com/docencia/tareas/rest/TareaRestController.java
+/home/dam/dam/repositories/servicios-y-procesos/structure/spring-tareas-rest-soap/src/main/java/com/docencia/tareas/service/TareaService.java
+/home/dam/dam/repositories/servicios-y-procesos/structure/spring-tareas-rest-soap/src/main/java/com/docencia/tareas/service/interfaces/ITareaService.java

@@ -1,0 +1,9 @@
+com/docencia/tareas/repository/interfaces/ITareaRepository.class
+com/docencia/tareas/rest/TareaRestController$ActualizarTareaRequest.class
+com/docencia/tareas/model/Tarea.class
+com/docencia/tareas/rest/TareaRestController$CrearTareaRequest.class
+com/docencia/tareas/rest/TareaRestController.class
+com/docencia/tareas/service/interfaces/ITareaService.class
+com/docencia/tareas/TareasApplication.class
+com/docencia/tareas/repository/TareaRepository.class
+com/docencia/tareas/service/TareaService.class
