@@ -49,5 +49,4 @@ public class TareaSoapService implements ITareaSoapService {
     public boolean eliminar(Long id) {
         return tareaService.eliminarTarea(id);
     }
-
 }
